@@ -5,7 +5,6 @@ Play if you dare! Spotlight is a game that encourages
 bullying... **healthy** bullying between friends. 
 
 ---
-
 Game instructions:
 
 Each round, one player is assigned to be the judge, and
