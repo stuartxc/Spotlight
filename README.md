@@ -1,5 +1,5 @@
 # Spotlight: My Personal Project
-## A funny fill-in-the-blank game
+## A fill-in-the-blank game
 
 Play if you dare! Spotlight is a game that encourages 
 bullying... **healthy** bullying between friends. 
