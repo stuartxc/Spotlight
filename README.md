@@ -40,3 +40,11 @@ on one person at a time while moving through the group,
 there will be plenty of shots fired between friends and 
 funny moments to be had.
  
+
+## User Stories
+* As a user, I want to be able to add a prompt to the current library of prompts.
+* As a user, I want to be able to input a response to the prompt every round
+* As a user, I want to be able to give a point to the player who wins the round.
+* As a user, I want to set a win condition for the game: E.g. The first player to 10 points wins.
+* As a user, I want to be able to control when the next round begins.
+
