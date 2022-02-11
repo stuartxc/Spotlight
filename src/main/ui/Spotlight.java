@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // MUCH OF THIS UI IS BASED OFF OF THE TELLERAPP PROJECT FROM THE 210 INSTRUCTORS!
 // Methods like runSpotlight(), processCommand(), init(), and displayMenu() are more or less copied from there.
 
-// Represents the entire Spotlight app
+// Represents the entire Spotlight app and all the UI features needed to run it.
 public class Spotlight {
     private PromptLibrary prompts;
     private PlayerList players;
