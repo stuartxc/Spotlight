@@ -83,7 +83,7 @@ public class Spotlight {
     private void addNewPrompt() {
         String userText = "";
         System.out.println("Enter a new prompt to be used in the game "
-                + "(use \"you\" to refer to the player in the spotlight), or "
+                + "(use \"S\" to refer to the player in the spotlight), or "
                 + "enter \"Cancel\" to cancel.");
 
         userText = input.next();
@@ -118,6 +118,7 @@ public class Spotlight {
             playIfEnoughPlayers();
         } else if (selection.equals("Back")) {
             System.out.println("Returning to the main menu...");
+            System.out.println("\tThis may take multiple tries. If needed, please enter \"Back\" again.");
         } else {
             System.out.println("Selection invalid, please try again.");
             beginSpotlight();
@@ -160,12 +161,10 @@ public class Spotlight {
     // EFFECTS: Starts the rounds, allowing players to see, answer, and judge prompts
     private void playRounds() {
         round++;
+        players.setAllResponding();
         setJudgeAndSpotlight();
         displayPrompt();
 
-
-
-        players.setAllResponding();
     }
 
     // REQUIRES: round > 0
@@ -176,9 +175,13 @@ public class Spotlight {
         System.out.println("Choosing spotlight and judge...");
 
         int numPlayers = players.getAmtPlayers();
-        // TODO: implement a better way to cycle through the spotlight and judge players. Currently, round % numPlayers
-        //       can sometimes be 0, and there is no player with playerNum 0.
-        Player spotlight = players.retrievePlayerByNum(round % numPlayers);
+        int spotlightNum = round % numPlayers;
+
+        if (spotlightNum == 0) {
+            spotlightNum = numPlayers;
+        }
+
+        Player spotlight = players.retrievePlayerByNum(spotlightNum);
         Player judge = players.retrievePlayerByNum((round % numPlayers) + 1);
 
         spotlight.setStatus("Spotlight");
@@ -198,7 +201,7 @@ public class Spotlight {
         int randomNum = ThreadLocalRandom.current().nextInt(1, prompts.getSize() + 1);
         Prompt display = prompts.retrievePrompt(randomNum);
 
-        System.out.println("Prompt: " + display.getText());
+        System.out.println("\nPrompt: " + display.getText());
 
         if (players.haveAllResponded()) {
             displayResponses();
@@ -246,6 +249,7 @@ public class Spotlight {
         String response = "";
         response = input.next();
         player.setResponse(response);
+        System.out.println("Response saved!");
 
         displayPrompt();
     }
@@ -253,11 +257,11 @@ public class Spotlight {
     // EFFECTS: Displays a list of the Players and their associated responses, and prompts the judge to make their
     //          decision
     private void displayResponses() {
-        System.out.println("The responses are all in! Here are all the players and their responses.");
+        System.out.println("The responses are in! Here is every player and their response.");
         System.out.println("\n" + players.getAllPlayerResponses());
         System.out.println("\nJudge, please find the response you like the best, then enter the name of the person "
                 + "who created that response. This will give them a point!");
-        System.out.println("\nThe next round will start once you do so.");
+        System.out.println("\tThe next round will start once you do so.");
 
         judgeWinner();
 

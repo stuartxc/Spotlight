@@ -26,9 +26,11 @@ class PromptLibraryTest {
 
         plTest.addPrompt(testPrompt1);
         assertEquals(1, plTest.getSize());
-
         plTest.addPrompt(testPrompt2);
         assertEquals(2, plTest.getSize());
+
+        assertEquals(1, testPrompt1.getPromptNum());
+        assertEquals(2, testPrompt2.getPromptNum());
     }
 
     @Test
