@@ -33,6 +33,6 @@ public class PromptLibrary {
 
     // EFFECTS: Produces the amount of prompts inside the current PromptLibrary
     public int getSize() {
-        return internalArray.size(); // stub
+        return internalArray.size();
     }
 }

@@ -43,8 +43,12 @@ funny moments to be had.
 
 ## User Stories
 * As a user, I want to be able to add a prompt to the current library of prompts.
-* As a user, I want to be able to input a response to the prompt every round
+* As a user, I want to be able to input a response to the prompt every round (whenever I am not the judge).
 * As a user, I want to be able to give a point to the player who wins the round (as the judge).
-* As a user, I want to set a win condition for the game: E.g. The first player to 10 points wins.
 * As a user, I want to be able to control when the next round begins.
 * As a user, I want to add my name to the list of players in the beginning of a game.
+
+## References
+- A lot of my UI code is based off of the 
+TellerApp project from the CPSC 210 professors: 
+https://github.students.cs.ubc.ca/CPSC210/TellerApp.git

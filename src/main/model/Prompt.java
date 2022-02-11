@@ -2,7 +2,7 @@ package model;
 
 // A class representing the prompts in the game that have a chance of appearing to the players, each round
 public class Prompt {
-    public static final String BLANK = "_____";
+    // public static final String BLANK = "_____";
 
     private String text;
     private int promptNum;
@@ -20,12 +20,12 @@ public class Prompt {
 
     // EFFECTS: Retrieves the text from the current Prompt
     public String getText() {
-        return this.text; //stub
+        return this.text;
     }
 
     // EFFECTS: Retrieves the number of the current Prompt
     public int getPromptNum() {
-        return this.promptNum; // stub
+        return this.promptNum;
     }
 
     // MODIFIES: this
@@ -36,6 +36,6 @@ public class Prompt {
 
     // EFFECTS: Retrieves whether the current Prompt has been used yet
     public boolean getUsed() {
-        return this.used; // stub
+        return this.used;
     }
 }

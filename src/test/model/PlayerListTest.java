@@ -28,4 +28,12 @@ public class PlayerListTest {
         assertEquals(2, plTest.getAmtPlayers());
     }
 
+    @Test
+    public void getAllPlayerNamesTest() {
+        plTest.addPlayer(new Player("Test1"));
+        plTest.addPlayer(new Player("Test2"));
+
+        assertEquals("Test1, Test2", plTest.getAllPlayerNames());
+    }
+
 }
