@@ -37,10 +37,12 @@ class PromptLibraryTest {
         Prompt testPrompt2 = new Prompt("Test2");
 
         plTest.addPrompt(testPrompt1);
-        assertEquals("Test1", plTest.retrievePrompt(1));
+        assertEquals(testPrompt1, plTest.retrievePrompt(1));
 
         plTest.addPrompt(testPrompt2);
-        assertEquals("Test2", plTest.retrievePrompt(2));
+        assertEquals(testPrompt2, plTest.retrievePrompt(2));
+
+        assertEquals("ERROR: PROMPT_NOT_FOUND", plTest.retrievePrompt(3).getText());
     }
 
 

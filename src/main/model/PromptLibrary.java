@@ -20,15 +20,15 @@ public class PromptLibrary {
         prompt.setPromptNum(internalArray.size());
     }
 
-    // EFFECTS: Searches for a Prompt with the given promptNum in the PromptLibrary. If found, returns the text
-    //          of the prompt. If not, returns "PROMPT_NOT_FOUND".
-    public String retrievePrompt(int promptNum) {
+    // EFFECTS: Searches for a Prompt with the given promptNum in the PromptLibrary. If found, returns the prompt.
+    //          If not, returns a dummy Prompt with the text "ERROR: PROMPT_NOT_FOUND".
+    public Prompt retrievePrompt(int promptNum) {
         for (Prompt p : internalArray) {
             if (promptNum == p.getPromptNum()) {
-                return p.getText();
+                return p;
             }
         }
-        return "PROMPT_NOT_FOUND";
+        return (new Prompt("ERROR: PROMPT_NOT_FOUND"));
     }
 
     // EFFECTS: Produces the amount of prompts inside the current PromptLibrary
