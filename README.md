@@ -47,6 +47,10 @@ funny moments to be had.
 * As a user, I want the non-judge players to be able to input a response to the prompt every round.
 * As a user, I want to be able to give a point to the player who wins the round (the judge decides).
 
+* As a user, I want to be able to save the prompts in the library
+and the players who are playing, as well as the round number and any points collected so far
+* As a user, I want to be able to load a previously saved game, complete with players and prompts, 
+rather than starting a new one
 
 ## References
 - Some of my beginning UI code is based off of the 
