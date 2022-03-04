@@ -1,0 +1,12 @@
+{"prompts": [
+    {
+        "promptNum": 1,
+        "text": "What is [S]'s weirdest snack?",
+        "used": false
+    },
+    {
+        "promptNum": 2,
+        "text": "Who is [S]'s worst enemy?",
+        "used": false
+    }
+]}

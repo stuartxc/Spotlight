@@ -1,9 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
+import java.util.List;
 
 // Represents the current collection of prompts that exist in the game library
-public class PromptLibrary {
+public class PromptLibrary implements Writable {
     private ArrayList<Prompt> internalArray;
 
     // EFFECTS: Constructs a new PromptLibrary, consisting of the default library's prompts only
@@ -35,4 +40,28 @@ public class PromptLibrary {
     public int getSize() {
         return internalArray.size();
     }
+
+    // EFFECTS: Returns the list of all the prompts
+    public List<Prompt> getAllPrompts() {
+        return internalArray;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("prompts", promptsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this PromptLibrary as a JSON array
+    private JSONArray promptsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Prompt p : internalArray) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }

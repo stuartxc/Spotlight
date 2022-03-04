@@ -1,0 +1,15 @@
+{
+  "players":[],
+  "prompts":[
+    {
+      "text": "What is [S]'s most embarrassing memory?",
+      "promptNum": 1,
+      "used": false
+    },
+    {
+      "text": "Who was [S]'s first crush?",
+      "promptNum": 2,
+      "used": true
+    }
+  ]
+}

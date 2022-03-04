@@ -1,9 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.LinkedList;
+import java.util.List;
 
 // A list of all the players in the current game.
-public class PlayerList {
+public class PlayerList implements Writable {
 
     private LinkedList<Player> internalList;
 
@@ -46,6 +51,11 @@ public class PlayerList {
             }
         }
         return (new Player("ERROR: PLAYER_NOT_FOUND"));
+    }
+
+    // EFFECTS: returns the list of players
+    public List<Player> getAllPlayers() {
+        return internalList;
     }
 
     // EFFECTS: returns a string containing the names of all players in the current PlayerList
@@ -137,8 +147,34 @@ public class PlayerList {
         return allPlayersPoints.substring(2, allPlayersPoints.length());
     }
 
+    // EFFECTS: sets the points of all Players to the given number.
+    public void setAllPlayerPoints(int num) {
+        for (Player p : internalList) {
+            p.setPoints(num);
+        }
+    }
+
     // EFFECTS: Returns the size of the current PlayerList
     public int getAmtPlayers() {
         return internalList.size();
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("players", playersToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this PlayerList as a JSON array
+    private JSONArray playersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Player p : internalList) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }

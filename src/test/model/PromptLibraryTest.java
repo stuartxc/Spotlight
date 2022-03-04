@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,6 +47,4 @@ class PromptLibraryTest {
 
         assertEquals("ERROR: PROMPT_NOT_FOUND", plTest.retrievePrompt(3).getText());
     }
-
-
 }

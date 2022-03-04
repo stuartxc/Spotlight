@@ -49,10 +49,12 @@ funny moments to be had.
 
 * As a user, I want to be able to save the prompts in the library
 and the players who are playing, as well as the round number and any points collected so far
-* As a user, I want to be able to load a previously saved game, complete with players and prompts, 
-rather than starting a new one
+* As a user, I want to be able to load a previously saved game in the state that it was saved in
 
 ## References
 - Some of my beginning UI code is based off of the 
 TellerApp project from the CPSC 210 professors: 
-https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
+https://github.students.cs.ubc.ca/CPSC210/TellerApp
+- The persistence package is largely based off of the
+JsonSerializationDemo project from the CPSC 210 professors:
+https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo

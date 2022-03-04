@@ -1,0 +1,19 @@
+{
+  "players":[
+    {
+      "name": "mowmow",
+      "status": "Judge",
+      "points": 1,
+      "playerNum": 1,
+      "response": ""
+    },
+    {
+      "name": "poohpooh",
+      "status": "Responding",
+      "points": 3,
+      "playerNum": 2,
+      "response": "I love you!"
+    }
+  ],
+  "prompts":[]
+}

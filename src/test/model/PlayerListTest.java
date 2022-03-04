@@ -195,4 +195,22 @@ public class PlayerListTest {
         testPlayer2.addPoint();
         assertEquals("Test1: 1. Test2: 1", plTest.getAllPlayerPoints());
     }
+
+    @Test
+    public void setAllPlayerPointsTest() {
+        testPlayer1.addPoint();
+        plTest.addPlayer(testPlayer1);
+        plTest.addPlayer(testPlayer2);
+
+        assertEquals("Test1: 1. Test2: 0", plTest.getAllPlayerPoints());
+
+        plTest.setAllPlayerPoints(1);
+        assertEquals("Test1: 1. Test2: 1", plTest.getAllPlayerPoints());
+
+        testPlayer2.addPoint();
+        assertEquals("Test1: 1. Test2: 2", plTest.getAllPlayerPoints());
+
+        plTest.setAllPlayerPoints(5);
+        assertEquals("Test1: 5. Test2: 5", plTest.getAllPlayerPoints());
+    }
 }

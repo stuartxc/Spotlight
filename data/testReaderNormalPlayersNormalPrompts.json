@@ -1,0 +1,30 @@
+{
+  "players":[
+    {
+      "name": "mowmow",
+      "status": "Judge",
+      "points": 1,
+      "playerNum": 1,
+      "response": ""
+    },
+    {
+      "name": "poohpooh",
+      "status": "Responding",
+      "points": 3,
+      "playerNum": 2,
+      "response": "I love you!"
+    }
+  ],
+  "prompts":[
+    {
+      "text": "What is [S]'s most embarrassing memory?",
+      "promptNum": 1,
+      "used": false
+    },
+    {
+      "text": "Who was [S]'s first crush?",
+      "promptNum": 2,
+      "used": true
+    }
+  ]
+}

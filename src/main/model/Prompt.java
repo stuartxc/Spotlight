@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // A class representing the prompts in the game that have a chance of appearing to the players, each round
-public class Prompt {
+public class Prompt implements Writable {
     // public static final String BLANK = "_____";
 
     private String text;
@@ -37,5 +40,20 @@ public class Prompt {
     // EFFECTS: Retrieves whether the current Prompt has been used yet
     public boolean getUsed() {
         return this.used;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Sets the current Prompt's used to the given boolean
+    public void setUsed(boolean bool) {
+        this.used = bool;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("text", text);
+        json.put("promptNum", promptNum);
+        json.put("used", used);
+        return json;
     }
 }

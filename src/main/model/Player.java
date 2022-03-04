@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // A class that represents players; each player has an associated Player object for them.
-public class Player {
+public class Player implements Writable {
     private String name;
     private String status;
     private int points;
@@ -41,6 +44,12 @@ public class Player {
     }
 
     // MODIFIES: this
+    // EFFECTS: Sets the points of the player to the given number
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    // MODIFIES: this
     // EFFECTS: Adds 1 to the Player's point total
     public void addPoint() {
         this.points = this.points + 1;
@@ -64,5 +73,16 @@ public class Player {
     // EFFECTS: modifies the Response of the current Player
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("status", status);
+        json.put("points", points);
+        json.put("playerNum", playerNum);
+        json.put("response", response);
+        return json;
     }
 }
