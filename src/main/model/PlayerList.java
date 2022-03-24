@@ -69,7 +69,7 @@ public class PlayerList implements Writable {
         if (allPlayers.length() <= 2) {
             return "";
         }
-        return allPlayers.substring(2, allPlayers.length());
+        return allPlayers.substring(2);
     }
 
     // MODIFIES: this
@@ -159,6 +159,7 @@ public class PlayerList implements Writable {
         return internalList.size();
     }
 
+    // TODO: make comments for these toJsons
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

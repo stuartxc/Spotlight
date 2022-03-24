@@ -5,9 +5,12 @@ import model.PromptLibrary;
 import model.Player;
 import model.PlayerList;
 import model.Round;
+import org.json.JSONException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -20,14 +23,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 // Methods like runSpotlight(), processCommand(), init(), and displayMenu() are more or less copied from there.
 
 // Represents the entire Spotlight app and all the UI features needed to run it.
-public class Spotlight {
+public class Spotlight extends JPanel {
     private static final String PLAYERS_STORE = "./data/playerlist.json";
     private static final String PROMPTS_STORE = "./data/promptlibrary.json";
     private static final String ROUND_STORE = "./data/round.json";
 
     private PromptLibrary prompts;
     private PlayerList players;
-    private Scanner input;
+    // private Scanner input;
     private Round round;
 
     private JsonWriter playersWriter;
@@ -37,56 +40,74 @@ public class Spotlight {
     private JsonWriter roundWriter;
     private JsonReader roundReader;
 
+    private GraphicalUserInterface gui;
+
     // EFFECTS: runs the Spotlight application
     public Spotlight() {
-        runSpotlight();
+        super();
+        // runSpotlight();
+    }
+
+    // Getters and setters:
+    public void setGui(GraphicalUserInterface gui) {
+        this.gui = gui;
+    }
+
+    // MODIFIES: gui
+    // EFFECTS: refreshes the components of the GUI and repaints it
+    public void updateGui() {
+        gui.pack();
+        gui.revalidate();
+        gui.validate();
+        gui.repaint();
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void runSpotlight() {
-        boolean keepGoing = true;
-        String command = null;
-
-        init();
-
-        while (keepGoing) {
-            displayMenu();
-            command = input.next();
-
-            if (command.equals("EXIT GAME")) {
-                keepGoing = false;
-            } else {
-                processCommand(command);
-            }
-        }
-
-        System.out.println("\nThank you for playing!");
-
-    }
+//    public void runSpotlight() {
+//
+//        boolean keepGoing = true;
+//        String command = null;
+//
+//        init();
+//
+//        while (keepGoing) {
+//            displayMainMenu();
+//            command = input.next();
+//
+//            if (command.equals("EXIT GAME")) {
+//                keepGoing = false;
+//            } else {
+//                processCommand(command);
+//            }
+//        }
+//
+//        System.out.println("\nThank you for playing!");
+//
+//    }
 
     // MODIFIES: this
     // EFFECTS: processes the user's commands
-    private void processCommand(String command) {
-        if (command.equals("Add")) {
-            addNewPrompt();
-        } else if (command.equals("Begin")) {
-            beginSpotlight();
-        } else if (command.equals("Instructions")) {
-            displayInstructions();
-        } else {
-            System.out.println("Please enter either Add, Begin, or EXIT GAME");
-        }
-    }
+//    public void processCommand(String command) {
+//        if (command.equals("Add")) {
+//            addNewPrompt();
+//        } else if (command.equals("Begin")) {
+//            beginSpotlight();
+//        } else if (command.equals("Instructions")) {
+//            displayInstructions();
+//        } else {
+//            System.out.println("Please enter either Add, Begin, or EXIT GAME");
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: initializes the PromptLibrary and PlayerList
-    private void init() {
+    public void init() {
         prompts = new PromptLibrary();
         players = new PlayerList();
         round = new Round();
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
+        // input = new Scanner(System.in);
+        // input.useDelimiter("\n");
 
         playersReader = new JsonReader(PLAYERS_STORE);
         playersWriter = new JsonWriter(PLAYERS_STORE);
@@ -97,86 +118,192 @@ public class Spotlight {
     }
 
     // EFFECTS: displays menu of options for the user to choose from
-    private void displayMenu() {
-        System.out.println("\nWelcome to Spotlight! \nPlease select from:");
-        System.out.println("\tAdd -> Add a new prompt to the prompts that you can play with!");
-        System.out.println("\tBegin -> Begin the game!");
-        System.out.println("\tInstructions -> How to play");
-        System.out.println("\tEXIT GAME -> Exit the application.");
+//    public void displayMainMenu() {
+//        System.out.println("\nWelcome to Spotlight! \nPlease select from:");
+//        System.out.println("\tAdd -> Add a new prompt to the prompts that you can play with!");
+//        System.out.println("\tBegin -> Begin the game!");
+//        System.out.println("\tInstructions -> How to play");
+//        System.out.println("\tEXIT GAME -> Exit the application.");
+//    }
+
+    public void displayMainMenu() {
+        removeAll();
+
+        JLabel welcome = new JLabel("Welcome to Spotlight! Please select from the following options:");
+        add(welcome);
+
+        mainMenuButtons();
+        updateGui();
+    }
+
+    public void mainMenuButtons() {
+        JButton addButton = new JButton("Add a new prompt to the prompts that you can play with!");
+        add(addButton);
+        addButton.addActionListener(e -> addNewPrompt());
+
+        JButton viewButton = new JButton("View all prompts that are in the current library.");
+        add(viewButton);
+        viewButton.addActionListener(e -> viewPrompts());
+
+        createBeginSpotlightButton();
+
+        JButton instructionsButton = new JButton("Instructions: How to play.");
+        add(instructionsButton);
+        instructionsButton.addActionListener(e -> displayInstructions());
+
+        JButton exitButton = new JButton("Exit the application.");
+        add(exitButton);
+        exitButton.addActionListener(e -> gui.exitApp());
+    }
+
+    private void createBeginSpotlightButton() {
+        JButton beginButton = new JButton("Begin the game!");
+        add(beginButton);
+        beginButton.addActionListener(e -> {
+            if (prompts.getSize() >= 1) {
+                beginSpotlight();
+            } else {
+                JOptionPane.showMessageDialog(gui, "No prompts are added yet! "
+                        + "Please create at least one prompt.", "Not enough prompts", JOptionPane.WARNING_MESSAGE);
+            }
+        });
     }
 
     // MODIFIES: this
     // EFFECTS: Creates a new Prompt and adds it to the PromptLibrary
-    private void addNewPrompt() {
-        String userText = "";
-        System.out.println("Enter a new prompt to be used in the game "
-                + "(use \"S\" to refer to the player in the spotlight), or "
-                + "enter \"Cancel\" to cancel.");
+//    public void addNewPrompt() {
+//        String userText = "";
+//        System.out.println("Enter a new prompt to be used in the game "
+//                + "(use \"S\" to refer to the player in the spotlight), or "
+//                + "enter \"Cancel\" to cancel.");
+//
+//        userText = input.next();
+//
+//        if (userText.equals("Cancel")) {
+//            System.out.println("Back to main menu.");
+//        } else if (userText.length() < 5) {
+//            System.out.println("Prompt too short! Sorry, please try a longer one. \nBack to main menu.");
+//        } else {
+//            Prompt prompt = new Prompt(userText);
+//            prompts.addPrompt(prompt);
+//            System.out.println("Prompt successfully added!");
+//        }
+//    }
 
-        userText = input.next();
+    public void addNewPrompt() {
+        String userText = JOptionPane.showInputDialog(gui, "Enter a new prompt to be used in the game "
+                + "(use \"S\" to refer to the player in the spotlight).");
 
-        if (userText.equals("Cancel")) {
-            System.out.println("Back to main menu.");
+        if (userText == null) {
+            JOptionPane.showMessageDialog(gui, "Back to main menu.", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else if (userText.length() < 5) {
-            System.out.println("Prompt too short! Sorry, please try a longer one. \nBack to main menu.");
+            JOptionPane.showMessageDialog(gui, "Prompt too short! Sorry, this will not be added - please try a"
+                    + " longer one. \nBack to main menu.", "Confirmation", JOptionPane.WARNING_MESSAGE);
         } else {
             Prompt prompt = new Prompt(userText);
             prompts.addPrompt(prompt);
-            System.out.println("Prompt successfully added!");
+            JOptionPane.showMessageDialog(gui, "Prompt successfully added!", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    private void createBackToMainMenuButton() {
+        JButton backButton = new JButton("Return to the main menu.");
+        add(backButton);
+        backButton.addActionListener(e -> displayMainMenu());
+    }
+
+    public void viewPrompts() {
+        removeAll();
+        JTextArea allPrompts = new JTextArea("The current prompts are: \n " + prompts.getAllPromptText(),
+                prompts.getSize(), 1);
+        allPrompts.setEditable(false);
+        allPrompts.setBackground(Color.red);
+        add(allPrompts);
+
+        createBackToMainMenuButton();
+
+        updateGui();
     }
 
     // MODIFIES: this
     // EFFECTS: Begins playing Spotlight, which requires the user to create at least 3 players before starting the
     //          rounds
-    private void beginSpotlight() {
-        String selection = "";
-        System.out.println("Spotlight: Please make a selection. At least 3 players are needed to play!");
-        System.out.println("\tAdd player -> Add another player to the current list of players.");
-        System.out.println("\tPlay -> Start playing with the current players.");
-        System.out.println("\tLoad -> Resume playing with the previously saved game state");
-        System.out.println("\tBack -> Return to the main menu");
-        System.out.println("\nThe current players are: " + players.getAllPlayerNames());
-        selection = input.next();
+//    public void beginSpotlight() {
+//        String selection = "";
+//        System.out.println("Spotlight: Please make a selection. At least 3 players are needed to play!");
+//        System.out.println("\tAdd player -> Add another player to the current list of players.");
+//        System.out.println("\tPlay -> Start playing with the current players.");
+//        System.out.println("\tLoad -> Resume playing with the previously saved game state");
+//        System.out.println("\tBack -> Return to the main menu");
+//        System.out.println("\nThe current players are: " + players.getAllPlayerNames());
+//        selection = input.next();
+//
+//        if (selection.equals("Add player")) {
+//            addNewPlayer();
+//        } else if (selection.equals("Play")) {
+//            playIfEnoughPlayers();
+//        } else if (selection.equals("Load")) {
+//            loadAndPlay();
+//        } else if (selection.equals("Back")) {
+//            System.out.println("Returning to the main menu...");
+//            System.out.println("\tThis may take multiple tries. If needed, please enter \"Back\" again.");
+//        } else {
+//            System.out.println("Selection invalid, please try again.");
+//            beginSpotlight();
+//        }
+//    }
 
-        if (selection.equals("Add player")) {
-            addNewPlayer();
-        } else if (selection.equals("Play")) {
-            playIfEnoughPlayers();
-        } else if (selection.equals("Load")) {
-            loadAndPlay();
-        } else if (selection.equals("Back")) {
-            System.out.println("Returning to the main menu...");
-            System.out.println("\tThis may take multiple tries. If needed, please enter \"Back\" again.");
+    public void beginSpotlight() {
+        removeAll();
+
+        JLabel gameMenu = new JLabel("Welcome to the game menu:");
+        add(gameMenu);
+
+        JButton addButton = new JButton("Add player");
+        add(addButton);
+        addButton.addActionListener(e -> addNewPlayer());
+        JButton playButton = new JButton("Start playing with the current players.");
+        add(playButton);
+        playButton.addActionListener(e -> playIfEnoughPlayers());
+        JButton loadButton = new JButton("Resume playing with the previously saved game state.");
+        add(loadButton);
+        loadButton.addActionListener(e -> loadAndPlay());
+        createBackToMainMenuButton();
+
+        JLabel currentPlayers = new JLabel("The current players are: " + players.getAllPlayerNames());
+        add(currentPlayers);
+
+        updateGui();
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: adds a new Player with the given name to the current PlayerList
+
+
+    public void addNewPlayer() {
+        String userName = JOptionPane.showInputDialog("Enter a name for the new player.");
+
+        if (userName == null) {
+            JOptionPane.showMessageDialog(gui, "Back to game menu.", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (userName.length() < 1) {
+            JOptionPane.showMessageDialog(gui, "Invalid name. Please try again. \tBack to game menu.",
+                    "Confirmation", JOptionPane.WARNING_MESSAGE);
         } else {
-            System.out.println("Selection invalid, please try again.");
+            Player player = new Player(userName);
+            players.addPlayer(player);
+            JOptionPane.showMessageDialog(gui, "Player successfully added!", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
             beginSpotlight();
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a new Player with the given name to the current PlayerList
-    private void addNewPlayer() {
-        String userName = "";
-        System.out.println("Enter a name for the new player, or enter \"Cancel\" to cancel.");
-
-        userName = input.next();
-
-        if (userName.equals("Cancel")) {
-            System.out.println("Back to game menu.");
-        } else if (userName.length() < 1) {
-            System.out.println("Invalid name. Please try again. \tBack to game menu.");
-        } else {
-            Player player = new Player(userName);
-            players.addPlayer(player);
-            System.out.println("Player successfully added!");
-        }
-        beginSpotlight();
-    }
-
-    // MODIFIES: this
     // EFFECTS: Allows rounds to start playing if there are at least 3 players. If not, goes back to game menu.
-    private void playIfEnoughPlayers() {
+    public void playIfEnoughPlayers() {
         if (players.getAmtPlayers() < 3) {
             System.out.println("Not enough players! Please add more before continuing.");
             beginSpotlight();
@@ -187,34 +314,30 @@ public class Spotlight {
     }
 
     // MODIFIES: this
-    // EFFECTS: Loads the previously saved game and begins the game if there are at least 3 players. If not, goes
-    //          back to game menu.
+    // EFFECTS: Loads the previously saved game and plays from that saved state
     //          - As of the current iteration, loading a saved game will NOT carry their saved answers into the
     //          newly loaded game, even if they are written into the json file. This is more of a design choice,
     //          since I think people would find it better if they had the option to restate their previous answer
     //          or to choose a new one instead.
-    private void loadAndPlay() {
-        if (players.getAmtPlayers() < 3) {
-            System.out.println("Not enough players! Please add more before continuing.");
-            beginSpotlight();
-        } else {
-            try {
-                players = playersReader.readPlayers();
-                prompts = promptsReader.readPrompts();
-                round = roundReader.readRound();
-            } catch (IOException e) {
-                System.out.println("Unable to read from file: one of " + PLAYERS_STORE + ", " + PROMPTS_STORE
-                        + ", and/or" + ROUND_STORE);
-            }
-            round.decrementRound();
-            playRounds();
+    public void loadAndPlay() {
+        try {
+            players = playersReader.readPlayers();
+            prompts = promptsReader.readPrompts();
+            round = roundReader.readRound();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: one of " + PLAYERS_STORE + ", " + PROMPTS_STORE
+                    + ", and/or" + ROUND_STORE);
+        } catch (JSONException je) {
+            System.out.println("Error: no saved game files were found");
         }
+        round.decrementRound();
+        playRounds();
     }
 
     // REQUIRES: Size of PlayerList >= 3, PromptLibrary >= 1
     // MODIFIES: this
     // EFFECTS: Starts the rounds, allowing players to see, answer, and judge prompts
-    private void playRounds() {
+    public void playRounds() {
         round.incrementRound();
         players.setAllResponding();
         setJudgeAndSpotlight();
@@ -226,7 +349,7 @@ public class Spotlight {
     // MODIFIES: this
     // EFFECTS: Sets certain players to be the judge or the one in the spotlight, according to
     //          the current round number. Announces it while doing this.
-    private void setJudgeAndSpotlight() {
+    public void setJudgeAndSpotlight() {
         System.out.println("Choosing spotlight and judge...");
 
         int numPlayers = players.getAmtPlayers();
@@ -251,7 +374,7 @@ public class Spotlight {
     // EFFECTS: Displays a random prompt from the current library. If there is any "responding" player who hasn't
     //          responded yet, then allows for more responses to be made to the current prompt. If everyone who needs
     //          to respond has already responded, then goes to the judging screen.
-    private void displayPrompt() {
+    public void displayPrompt() {
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
         int randomNum = ThreadLocalRandom.current().nextInt(1, prompts.getSize() + 1);
@@ -278,9 +401,9 @@ public class Spotlight {
     // MODIFIES: this
     // EFFECTS: Allows the user to skip the current Prompt, exit the game, or choose a Player to respond to the
     //          current Prompt. The game will continue according to whatever the user picks.
-    private void playerResponses() {
+    public void playerResponses() {
         String userResponse = "";
-        userResponse = input.next();
+        // userResponse = input.next();
 
         if (userResponse.equals("SKIP")) {
             System.out.println("Skipping...");
@@ -305,11 +428,11 @@ public class Spotlight {
 
     // MODIFIES: this
     // EFFECTS: Prompts the user for a response, then edits the response of the given Player to match that
-    private void enterResponse(Player player) {
+    public void enterResponse(Player player) {
         System.out.println(player.getName() + ", please enter your response:");
 
         String response = "";
-        response = input.next();
+        // response = input.next();
         player.setResponse(response);
         System.out.println("Response saved!");
 
@@ -318,7 +441,7 @@ public class Spotlight {
 
     // EFFECTS: Displays a list of the Players and their associated responses, and prompts the judge to make their
     //          decision
-    private void displayResponses() {
+    public void displayResponses() {
         System.out.println("The responses are in! Here is every player and their response.");
         System.out.println("\n" + players.getAllPlayerResponses());
         System.out.println("\nJudge, please find the response you like the best, then enter the name of the person "
@@ -331,9 +454,9 @@ public class Spotlight {
 
     // MODIFIES: this
     // EFFECTS: Allows the judge to look at the responses and add a point to whomever they deem to be the winner
-    private void judgeWinner() {
+    public void judgeWinner() {
         String judgedName = "";
-        judgedName = input.next();
+        // judgedName = input.next();
 
         Player winner = players.retrievePlayerByName(judgedName);
 
@@ -353,7 +476,7 @@ public class Spotlight {
     // MODIFIES: playerlist.json, promptlibrary.json, round.json
     // EFFECTS: saves the entire game, including the states of all players and prompts, including the round number,
     //          to file
-    private void saveGame() {
+    public void saveGame() {
         try {
             playersWriter.open();
             playersWriter.writePlayers(players);
@@ -373,7 +496,7 @@ public class Spotlight {
 
     // MODIFIES: this
     // EFFECTS: Ends the current game, returns the user to the main menu
-    private void gameOver() {
+    public void gameOver() {
         System.out.println("The game is now over!");
         System.out.println("The points of each player are as follows: " + players.getAllPlayerPoints());
         players.setAllPlayerPoints(0);
@@ -381,9 +504,25 @@ public class Spotlight {
     }
 
     // EFFECTS: displays some instructions for how to play Spotlight and how to create prompts.
-    // TODO: as of right now, this is for future phases.
-    private void displayInstructions() {
-        System.out.println("An instructions guide is coming soon. For now, please refer to the README.md file.");
+    public void displayInstructions() {
+        removeAll();
+        JLabel instructionHeading = new JLabel("Game instructions:");
+        add(instructionHeading);
+
+        JTextArea instructions = new JTextArea("Each round, one player is assigned to be the judge, and one "
+                + "player will be in the spotlight.\nEveryone but the judge will be given a prompt regarding the player"
+                + " in the spotlight to answer as they please. \nOnce they answer the prompt, the judge will award a "
+                + "point to the person whose answer they like the best.\n\n For example:\n Player A, B, C, J, and S are"
+                + " playing a game!\n This round, J is the Judge and S is in the Spotlight.\n A, B, C, and S are given"
+                + " the prompt: \"S's most embarassing memory is...\"\n Once A, B, and C, and S have all given their"
+                + " response, J will award a point to the player whose answer they like the best.");
+        instructions.setEditable(false);
+        instructions.setBackground(Color.red);
+        add(instructions);
+
+        createBackToMainMenuButton();
+
+        updateGui();
     }
 
 }

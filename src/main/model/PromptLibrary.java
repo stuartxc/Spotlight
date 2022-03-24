@@ -46,6 +46,20 @@ public class PromptLibrary implements Writable {
         return internalArray;
     }
 
+    // EFFECTS: returns a string containing the text of all prompts in the current PromptLibrary
+    public String getAllPromptText() {
+        String allPrompts = "";
+
+        for (Prompt p : internalArray) {
+            allPrompts = allPrompts + "\n " + p.getText();
+        }
+
+        if (allPrompts.length() <= 2) {
+            return "";
+        }
+        return allPrompts.substring(2);
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
