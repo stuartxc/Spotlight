@@ -170,7 +170,7 @@ public class PlayerListTest {
         plTest.addPlayer(testPlayer1);
         plTest.addPlayer(testPlayer2);
 
-        assertEquals("Test1: Ice cream in my underwear. Test2: Using a deodorant stick as mayonnaise",
+        assertEquals("- Test1: Ice cream in my underwear\n- Test2: Using a deodorant stick as mayonnaise",
                 plTest.getAllPlayerResponses());
 
         Player testPlayer3 = new Player("Test3");
@@ -178,7 +178,7 @@ public class PlayerListTest {
         plTest.addPlayer(testPlayer3);
         assertEquals("", testPlayer3.getResponse());
         // should ignore the judge
-        assertEquals("Test1: Ice cream in my underwear. Test2: Using a deodorant stick as mayonnaise",
+        assertEquals("- Test1: Ice cream in my underwear\n- Test2: Using a deodorant stick as mayonnaise",
                 plTest.getAllPlayerResponses());
     }
 
@@ -190,10 +190,10 @@ public class PlayerListTest {
         plTest.addPlayer(testPlayer1);
         plTest.addPlayer(testPlayer2);
 
-        assertEquals("Test1: 1. Test2: 0", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 1\n- Test2: 0", plTest.getAllPlayerPoints());
 
         testPlayer2.addPoint();
-        assertEquals("Test1: 1. Test2: 1", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 1\n- Test2: 1", plTest.getAllPlayerPoints());
     }
 
     @Test
@@ -202,15 +202,15 @@ public class PlayerListTest {
         plTest.addPlayer(testPlayer1);
         plTest.addPlayer(testPlayer2);
 
-        assertEquals("Test1: 1. Test2: 0", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 1\n- Test2: 0", plTest.getAllPlayerPoints());
 
         plTest.setAllPlayerPoints(1);
-        assertEquals("Test1: 1. Test2: 1", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 1\n- Test2: 1", plTest.getAllPlayerPoints());
 
         testPlayer2.addPoint();
-        assertEquals("Test1: 1. Test2: 2", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 1\n- Test2: 2", plTest.getAllPlayerPoints());
 
         plTest.setAllPlayerPoints(5);
-        assertEquals("Test1: 5. Test2: 5", plTest.getAllPlayerPoints());
+        assertEquals("- Test1: 5\n- Test2: 5", plTest.getAllPlayerPoints());
     }
 }

@@ -1,0 +1,23 @@
+{"players": [
+    {
+        "response": "",
+        "name": "poohpooh",
+        "status": "Responding",
+        "points": 1,
+        "playerNum": 1
+    },
+    {
+        "response": "",
+        "name": "mowmow",
+        "status": "Spotlight",
+        "points": 0,
+        "playerNum": 2
+    },
+    {
+        "response": "",
+        "name": "boof",
+        "status": "Judge",
+        "points": 0,
+        "playerNum": 3
+    }
+]}

@@ -30,6 +30,8 @@ public class Round implements Writable {
         this.currentRound--;
     }
 
+
+    // EFFECTS: Returns this Round as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

@@ -75,6 +75,7 @@ public class Player implements Writable {
         this.response = response;
     }
 
+    // EFFECTS: Returns this Player as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

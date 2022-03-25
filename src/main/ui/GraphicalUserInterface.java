@@ -3,30 +3,30 @@ package ui;
 import javax.swing.*;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
-// Runs the Spotlight application and sets up the GUI.
+// Runs the Spotlight application and sets up the GUI frame.
 public class GraphicalUserInterface extends JFrame {
 
-    private static final int WIDTH = 700;
-    private static final int HEIGHT = 490;
+    private static final int WIDTH = 612;
+    private static final int HEIGHT = 450;
 
-    private JPanel panel;
     private Spotlight spotlight;
 
-    private ActionListener addPromptListener;
-
+    // EFFECTS: Runs the application
     public static void main(String[] args) {
         new GraphicalUserInterface();
     }
 
+    // EFFECTS: Constructor for the GUI frame and the Spotlight panel
     public GraphicalUserInterface() {
         super("Spotlight");
         setupGUI();
         initializeSpotlight();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets basic, functional values for the GUI
     private void setupGUI() {
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -36,19 +36,23 @@ public class GraphicalUserInterface extends JFrame {
         setVisible(true);
     }
 
+    // MODIFIES: this, spotlight
+    // EFFECTS: Initializes the spotlight object and creates its default settings
     private void initializeSpotlight() {
         spotlight = new Spotlight();
         spotlight.setGui(this);
         spotlight.setBackground(Color.red);
         spotlight.setLayout(new DefaultMenuLayout(spotlight, BoxLayout.PAGE_AXIS));
 
-        spotlight.setSize(new Dimension(700, 490));
+        spotlight.setSize(new Dimension(612, 450));
         add(spotlight, BorderLayout.CENTER);
 
         spotlight.init();
         spotlight.displayMainMenu();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Displays a message to the user about ending the application and then closes the window
     public void exitApp() {
         JOptionPane.showMessageDialog(this, "Thanks for playing!", "Exiting...",
                 JOptionPane.INFORMATION_MESSAGE);

@@ -51,15 +51,16 @@ public class PromptLibrary implements Writable {
         String allPrompts = "";
 
         for (Prompt p : internalArray) {
-            allPrompts = allPrompts + "\n " + p.getText();
+            allPrompts = allPrompts + "\n- " + p.getText();
         }
 
-        if (allPrompts.length() <= 2) {
+        if (allPrompts.length() <= 3) {
             return "";
         }
-        return allPrompts.substring(2);
+        return allPrompts.substring(1);
     }
 
+    // EFFECTS: returns this PromptLibrary as a json object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

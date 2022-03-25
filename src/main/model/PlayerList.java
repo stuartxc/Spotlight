@@ -112,7 +112,7 @@ public class PlayerList implements Writable {
         if (stillResponding.length() <= 2) {
             return "";
         }
-        return stillResponding.substring(2, stillResponding.length());
+        return stillResponding.substring(2);
     }
 
     // EFFECTS: gets a string that contains every Player paired with their response, each pair separated by a period,
@@ -122,14 +122,14 @@ public class PlayerList implements Writable {
 
         for (Player p : internalList) {
             if (!(p.getStatus().equals("Judge"))) {
-                allPlayersResponses = allPlayersResponses + ". " + p.getName() + ": " + p.getResponse();
+                allPlayersResponses = allPlayersResponses + "\n- " + p.getName() + ": " + p.getResponse();
             }
         }
 
-        if (allPlayersResponses.length() <= 2) {
+        if (allPlayersResponses.length() <= 3) {
             return "";
         }
-        return allPlayersResponses.substring(2, allPlayersResponses.length());
+        return allPlayersResponses.substring(1);
     }
 
     // EFFECTS: gets a string that contains every Player paired with their point total, each pair separated by a
@@ -138,13 +138,13 @@ public class PlayerList implements Writable {
         String allPlayersPoints = "";
 
         for (Player p : internalList) {
-            allPlayersPoints = allPlayersPoints + ". " + p.getName() + ": " + p.getPoints();
+            allPlayersPoints = allPlayersPoints + "\n- " + p.getName() + ": " + p.getPoints();
         }
 
-        if (allPlayersPoints.length() <= 2) {
+        if (allPlayersPoints.length() <= 3) {
             return "";
         }
-        return allPlayersPoints.substring(2, allPlayersPoints.length());
+        return allPlayersPoints.substring(1);
     }
 
     // EFFECTS: sets the points of all Players to the given number.
@@ -159,7 +159,7 @@ public class PlayerList implements Writable {
         return internalList.size();
     }
 
-    // TODO: make comments for these toJsons
+    // EFFECTS: returns this PlayerList as a json object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

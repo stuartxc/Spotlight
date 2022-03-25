@@ -48,6 +48,7 @@ public class Prompt implements Writable {
         this.used = bool;
     }
 
+    // EFFECTS: Returns this Prompt as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

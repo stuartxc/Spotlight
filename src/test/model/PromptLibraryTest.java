@@ -53,6 +53,6 @@ class PromptLibraryTest {
         plTest.addPrompt(testPrompt1);
         plTest.addPrompt(testPrompt2);
 
-        assertEquals("Test1\n Test2", plTest.getAllPromptText());
+        assertEquals("- Test1\n- Test2", plTest.getAllPromptText());
     }
 }
