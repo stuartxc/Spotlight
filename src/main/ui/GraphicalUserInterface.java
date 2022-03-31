@@ -1,5 +1,8 @@
 package ui;
 
+import model.EventLog;
+import model.Event;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 import java.awt.*;
@@ -12,6 +15,7 @@ public class GraphicalUserInterface extends JFrame {
     private static final int HEIGHT = 450;
 
     private Spotlight spotlight;
+    private EventLog events;
 
     // EFFECTS: Runs the application
     public static void main(String[] args) {
@@ -23,14 +27,24 @@ public class GraphicalUserInterface extends JFrame {
         super("Spotlight");
         setupGUI();
         initializeSpotlight();
+        events = EventLog.getInstance();
     }
 
     // MODIFIES: this
-    // EFFECTS: Sets basic, functional values for the GUI
+    // EFFECTS: Sets basic, functional values for the GUI. Prints the EventLog when the GUI is closed.
     private void setupGUI() {
         setLayout(new BorderLayout());
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                for (Event e : EventLog.getInstance()) {
+                    System.out.println(e.toString());
+                }
+                //THEN you can exit the program
+                System.exit(0);
+            }
+        });
         setLocationRelativeTo(null);
         pack();
         setVisible(true);

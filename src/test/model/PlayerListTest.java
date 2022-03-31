@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Tests for the PlayerList class.
@@ -26,6 +29,10 @@ public class PlayerListTest {
 
     @Test
     public void addPlayerTest() {
+        List<Event> testEvents = new ArrayList<>();
+        Event e1 = new Event("Player " + testPlayer1.getName() + " was added!");
+        Event e2 = new Event("Player " + testPlayer2.getName() + " was added!");
+
         plTest.addPlayer(testPlayer1);
         assertEquals(1, plTest.getAmtPlayers());
         plTest.addPlayer(testPlayer2);
@@ -33,6 +40,43 @@ public class PlayerListTest {
 
         assertEquals(1, testPlayer1.getPlayerNum());
         assertEquals(2, testPlayer2.getPlayerNum());
+
+        EventLog el = EventLog.getInstance();
+        for (Event next : el) {
+            testEvents.add(next);
+        }
+
+        assertTrue(testEvents.contains(e1));
+        assertTrue(testEvents.contains(e2));
+    }
+
+    @Test
+    public void removePlayerTest() {
+        List<Event> testEvents = new ArrayList<>();
+
+        Event e1 = new Event("Player " + testPlayer1.getName() + " was added!");
+        Event e2 = new Event("Player " + testPlayer2.getName() + " was added!");
+        Event e3 = new Event("Player " + testPlayer1.getName() + " was removed.");
+        Event e4 = new Event("Player " + testPlayer2.getName() + " was removed.");
+
+        plTest.addPlayer(testPlayer1);
+        plTest.addPlayer(testPlayer2);
+
+        plTest.removePlayer(testPlayer1);
+        assertEquals(1, plTest.getAmtPlayers());
+
+        plTest.removePlayer(testPlayer2);
+        assertEquals(0, plTest.getAmtPlayers());
+
+        EventLog el = EventLog.getInstance();
+        for (Event next : el) {
+            testEvents.add(next);
+        }
+
+        assertTrue(testEvents.contains(e1));
+        assertTrue(testEvents.contains(e2));
+        assertTrue(testEvents.contains(e3));
+        assertTrue(testEvents.contains(e4));
     }
 
     @Test

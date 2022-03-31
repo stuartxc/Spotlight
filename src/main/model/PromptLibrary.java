@@ -19,10 +19,11 @@ public class PromptLibrary implements Writable {
 
     // MODIFIES: this
     // EFFECTS: Adds the given Prompt to the current game's PromptLibrary, assigning it a promptNum equivalent to its
-    //          position in the PromptLibrary
+    //          position in the PromptLibrary. Also logs an Event that says which # prompt was added at this time.
     public void addPrompt(Prompt prompt) {
         internalArray.add(prompt);
         prompt.setPromptNum(internalArray.size());
+        EventLog.getInstance().logEvent(new Event("Prompt #" + prompt.getPromptNum() + " was added!"));
     }
 
     // EFFECTS: Searches for a Prompt with the given promptNum in the PromptLibrary. If found, returns the prompt.

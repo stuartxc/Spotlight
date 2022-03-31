@@ -18,18 +18,27 @@ public class PlayerList implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds the given Player to the PlayerList
-    public void addPlayer(Player player) {
-        internalList.add(player);
-        player.setPlayerNum(internalList.size());
+    // EFFECTS: Adds the given Player to the PlayerList, assigning it a playerNum equivalent to its
+    //          position in the PlayerList. Also logs an Event that says which player was added at this time.
+    public void addPlayer(Player toAdd) {
+        internalList.add(toAdd);
+        toAdd.setPlayerNum(internalList.size());
+        EventLog.getInstance().logEvent(new Event("Player " + toAdd.getName() + " was added!"));
     }
 
     // REQUIRES: the given Player is a member of the PlayerList
-    // EFFECTS: Removes the given Player from the PlayerList
-    // TODO: Not necessary for the first phase of the project, but this could be useful later.
-    //    public void removePlayer(Player player) {
-    //        // stub
-    //    }
+    // MODIFIES: this
+    // EFFECTS: Removes the given Player from the PlayerList and logs an Event saying which player was removed.
+    //          Also updates the playerNum of all players who were shifted up as a result of moving them.
+    public void removePlayer(Player toRemove) {
+        internalList.remove(toRemove);
+        EventLog.getInstance().logEvent(new Event("Player " + toRemove.getName() + " was removed."));
+        for (Player p : internalList) {
+            if (p.getPlayerNum() > toRemove.getPlayerNum()) {
+                p.setPlayerNum(p.getPlayerNum() - 1);
+            }
+        }
+    }
 
     // EFFECTS: Searches for a Player with the given playerName in the PlayerList. If found, returns that Player.
     //          If not, returns a dummy Player named "ERROR: PLAYER_NOT_FOUND"

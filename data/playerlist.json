@@ -1,22 +1,22 @@
 {"players": [
     {
         "response": "",
-        "name": "poohpooh",
-        "status": "Responding",
-        "points": 1,
+        "name": "Doggy",
+        "status": "Spotlight",
+        "points": 0,
         "playerNum": 1
     },
     {
         "response": "",
-        "name": "mowmow",
-        "status": "Spotlight",
+        "name": "poohpooh",
+        "status": "Judge",
         "points": 0,
         "playerNum": 2
     },
     {
         "response": "",
-        "name": "boof",
-        "status": "Judge",
+        "name": "MOOOOOO",
+        "status": "Responding",
         "points": 0,
         "playerNum": 3
     }

@@ -191,6 +191,9 @@ public class Spotlight extends JPanel {
         JButton addButton = new JButton("Add player");
         add(addButton);
         addButton.addActionListener(e -> addNewPlayer());
+        JButton removeButton = new JButton("Remove player");
+        add(removeButton);
+        removeButton.addActionListener(e -> removePlayer());
         JButton playButton = new JButton("Start playing with the current players.");
         add(playButton);
         playButton.addActionListener(e -> playIfEnoughPlayers());
@@ -220,7 +223,7 @@ public class Spotlight extends JPanel {
         } else if (userName.length() < 1) {
             JOptionPane.showMessageDialog(gui, "Invalid name. Please try again. \tBack to game menu.",
                     "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (playerAlreadyExists(userName)) {
+        } else if (playerExists(userName)) {
             JOptionPane.showMessageDialog(gui, "This player already exists; please use a different one. "
                             + "\tBack to game menu.","Warning", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -232,8 +235,32 @@ public class Spotlight extends JPanel {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: prompts the player to remove a Player. If they do so, removes the Player with the given name
+    //          from the PlayerList.
+    public void removePlayer() {
+        String userName = JOptionPane.showInputDialog("Enter the name of the player that you wish to remove.");
+        if (userName != null) {
+            userName = userName.trim();
+        }
+
+        if (userName == null) {
+            JOptionPane.showMessageDialog(gui, "Back to game menu.", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else if (!(playerExists(userName))) {
+            JOptionPane.showMessageDialog(gui, "This player does not exist! "
+                    + "\tBack to game menu.","Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            Player toRemove = players.retrievePlayerByName(userName);
+            players.removePlayer(toRemove);
+            JOptionPane.showMessageDialog(gui, "Player successfully removed!", "Confirmation",
+                    JOptionPane.INFORMATION_MESSAGE);
+            beginSpotlight();
+        }
+    }
+
     // EFFECTS: helper for deciding whether a Player with the given name already exists
-    private boolean playerAlreadyExists(String userName) {
+    private boolean playerExists(String userName) {
         for (Player p : players.getAllPlayers()) {
             if (p.getName().equals(userName)) {
                 return true;

@@ -1,12 +1,5 @@
-{"prompts": [
-    {
-        "promptNum": 1,
-        "text": "wowowo",
-        "used": false
-    },
-    {
-        "promptNum": 2,
-        "text": "ducky",
-        "used": false
-    }
-]}
+{"prompts": [{
+    "promptNum": 1,
+    "text": "Woof woof owof",
+    "used": false
+}]}

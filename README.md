@@ -44,6 +44,7 @@ funny moments to be had.
 ## User Stories
 * As a user, I want to be able to add a prompt to the current library of prompts before the game starts.
 * As a user, I want to add myself to the list of players before the game starts.
+* As a user, I also want to be able to **remove** a player from the list of players before the game starts.
 * As a user, I want the non-judge players to be able to input a response to the prompt every round.
 * As a user, I want to be able to give a point to the player who wins the round (the judge decides).
 
@@ -59,4 +60,27 @@ funny moments to be had.
 - The persistence package is largely based off of the
   JsonSerializationDemo project from the CPSC 210 professors:
   https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+- Event and EventLog are from the AlarmSystem project from the
+  CPSC 210 professors: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem
+
+## Phase 4 Task 2: Log example
+Tue Mar 29 23:57:03 PDT 2022
+Prompt #1 was added!
+
+Tue Mar 29 23:57:18 PDT 2022
+Player doggy was added!
+
+Tue Mar 29 23:57:22 PDT 2022
+Player doggy was removed.
+
+Tue Mar 29 23:57:25 PDT 2022
+Player froggy was added!
+
+Tue Mar 29 23:57:28 PDT 2022
+Player doggy was added!
+
+Tue Mar 29 23:57:31 PDT 2022
+Player froggy was removed.
+
+Process finished with exit code 0
 
