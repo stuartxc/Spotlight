@@ -84,3 +84,23 @@ Player froggy was removed.
 
 Process finished with exit code 0
 
+## Phase 4 Task 3: Refactoring Wishes
+### A list of things that I would have done in this project, given more time
+* I would have abstracted a lot of the methods that iterates
+through the PlayerList/PromptLibrary - there's a ton of duplication
+that could have been avoided there
+  * Maybe could have done this by making an abstract class
+* I would have tried to figure out how to save the entire game
+state as one .json file, rather than the 3 separate files I have
+right now
+* I would have tried to make it so that used Prompts wouldn't be
+seen for the rest of the game and ending the game when all prompts
+had been used up. 
+  * I could probably do this by working with a separate list
+  of unused prompts when a game starts, and removing the prompt
+  from there when it gets used.
+* I would have abstracted some label/button-making code, since it
+was repeated a lot to create the GUI
+* I could have split up the Spotlight class into different classes
+to represent the different states of the game: Main menu, game menu,
+and gameplay (although I'm not sure if this would 100% be a better design)

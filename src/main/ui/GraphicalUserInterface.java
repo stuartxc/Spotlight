@@ -15,7 +15,6 @@ public class GraphicalUserInterface extends JFrame {
     private static final int HEIGHT = 450;
 
     private Spotlight spotlight;
-    private EventLog events;
 
     // EFFECTS: Runs the application
     public static void main(String[] args) {
@@ -27,7 +26,6 @@ public class GraphicalUserInterface extends JFrame {
         super("Spotlight");
         setupGUI();
         initializeSpotlight();
-        events = EventLog.getInstance();
     }
 
     // MODIFIES: this
