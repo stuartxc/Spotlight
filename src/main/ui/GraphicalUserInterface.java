@@ -17,6 +17,7 @@ public class GraphicalUserInterface extends JFrame {
     private Spotlight spotlight;
 
     // EFFECTS: Runs the application
+    // TODO: THIS SHOULD BE ITS OWN CLASS
     public static void main(String[] args) {
         new GraphicalUserInterface();
     }
